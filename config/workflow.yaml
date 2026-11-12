@@ -1,0 +1,66 @@
+# AlphaForge 工作流定义：阶段、依赖、触发器、修订循环
+workflow:
+  name: alpha-forge
+  description: 个人股票量化交易 AI 系统——随行情自动优化迭代的长程智能体工作流
+
+  # ---- 阶段与依赖关系（DAG）----
+  stages:
+    - id: data_check          # 数据质量与点时完整性检查
+      agent: data_agent
+      depends_on: []
+      deterministic_tools: [datafeed, integrity_checks]
+      output: artifacts/data_quality_report.json
+
+    - id: hypothesis          # 策略研究员提出迭代假设
+      agent: research_agent
+      depends_on: [data_check]
+      skills: [hypothesis-card]
+      output: artifacts/hypothesis_card.yaml
+
+    - id: backtest            # 确定性回测（智能体决策、Harness 执行代码）
+      agent: backtest_agent
+      depends_on: [hypothesis]
+      deterministic: true
+      output: artifacts/backtest_report.json
+
+    - id: verification        # 独立核验：未来函数 lint + 固定基线对比
+      agent: verification_agent
+      depends_on: [backtest]
+      skills: [lookahead-lint]
+      output: artifacts/verification_report.json
+
+    - id: revision_gate       # 有界修订循环：REJECT → 回到 hypothesis（最多 max_rounds 轮）
+      control: revision_loop
+      depends_on: [verification]
+
+    - id: approval            # 人工批准闸门：策略晋级前必须人工签字
+      gate: human
+      depends_on: [verification]
+      output: artifacts/approval_request.md
+
+    - id: promote             # 版本登记：采纳/拒绝/回滚（确定性）
+      agent: registry_agent
+      depends_on: [approval]
+      deterministic: true
+      output: artifacts/promotion_record.json
+
+    - id: orders              # 组合构建与调仓指令（dry-run 默认）
+      agent: portfolio_agent
+      depends_on: [promote]
+      skills: [qubo-portfolio]
+      output: artifacts/orders_dryrun.csv
+
+  # ---- 重复触发条件 ----
+  triggers:
+    daily_monitor: "16:30"        # 每个交易日收盘后运行监测
+    weekly_iteration: "Saturday 10:00"  # 每周深度迭代
+    on_degradation: true          # 监测发现绩效衰减时立即触发迭代循环
+
+  # ---- 有界修订循环 ----
+  revision_loop:
+    max_rounds: 3                 # 研究↔核验最多 3 轮，超限则拒绝并上报
+
+  # ---- 信息截止时点 ----
+  information_cutoff:
+    policy: point_in_time         # 仅允许使用信号生成时点之前的数据
+    data_cutoff: "T 日收盘"       # 交易日 T 收盘后运行，只允许 T 及之前数据

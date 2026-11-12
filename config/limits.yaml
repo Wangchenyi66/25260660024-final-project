@@ -1,0 +1,23 @@
+# 资源、时间与工具权限限制
+limits:
+  stage_timeout_seconds: 600      # 单阶段墙钟时间上限
+  run_budget:
+    max_llm_calls: 30             # 单次运行 LLM 调用上限（成本控制）
+    max_tokens: 30000             # 单次运行 token 预算
+  retries:
+    max_attempts: 3               # 阶段级重试次数
+    backoff_seconds: 2            # 指数退避基数
+  stop_rules:
+    consecutive_verification_failures: 3   # 连续核验失败达到此次数 → 停止自动迭代并上报
+    escalation_file: ESCALATION.md         # 升级上报文件
+  human_gates:                    # 重大操作前的人工批准闸门
+    - promote_strategy            # 策略版本晋级为"实盘生效"前
+    - generate_orders             # 生成调仓指令前（dry-run 也需留痕）
+  # 智能体工具权限矩阵：智能体只能调用列出的工具（最小权限原则）
+  tools:
+    research_agent:    [read_file, write_artifact, propose_hypothesis]
+    data_agent:        [read_file, write_artifact, run_integrity_checks]
+    backtest_agent:    [read_file, write_artifact, run_backtest]
+    verification_agent: [read_file, write_artifact, run_backtest, run_lookahead_lint, compare_baseline]
+    portfolio_agent:   [read_file, write_artifact, read_approved_version, write_orders_dryrun]
+    monitor_agent:     [read_file, write_artifact, run_backtest, trigger_iteration]
