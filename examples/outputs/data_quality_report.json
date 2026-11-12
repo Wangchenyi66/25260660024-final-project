@@ -1,0 +1,11 @@
+{
+  "as_of": "2025-11-17",
+  "n_assets": 8,
+  "n_days": 750,
+  "fresh": true,
+  "missing_values": 0,
+  "timestamp_monotonic": true,
+  "records_after_cutoff": 0,
+  "regime_label": "high_vol",
+  "verdict": "PASS"
+}

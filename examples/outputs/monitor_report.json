@@ -1,0 +1,28 @@
+{
+  "as_of": "2025-11-17",
+  "strategy_version": "v0-baseline",
+  "rolling_60d": {
+    "ann_return": -0.6357617394905603,
+    "ann_vol": 0.39396417266198774,
+    "sharpe": -1.613755218386392,
+    "max_dd": -0.30532545191852656,
+    "calmar": -2.082242851015931,
+    "n_days": 60
+  },
+  "baseline_60d": {
+    "ann_return": -0.6357617394905603,
+    "ann_vol": 0.39396417266198774,
+    "sharpe": -1.613755218386392,
+    "max_dd": -0.30532545191852656,
+    "calmar": -2.082242851015931,
+    "n_days": 60
+  },
+  "current_dd_120d": -0.3517973068163468,
+  "regime_now": "high_vol",
+  "regime_at_last_optimization": "low_vol",
+  "trigger_iteration": true,
+  "reasons": [
+    "当前回撤 -35.18% 超过限制 0.15",
+    "市场状态切换 low_vol → high_vol"
+  ]
+}

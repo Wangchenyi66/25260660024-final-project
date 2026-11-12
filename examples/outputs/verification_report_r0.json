@@ -1,0 +1,20 @@
+{
+  "verdict": "ACCEPT",
+  "lookahead_violations": [],
+  "reproducible": true,
+  "baseline_delta": {
+    "calmar": 0.07743475500853453,
+    "sharpe": 0.09311613347078829
+  },
+  "economic_thresholds": {
+    "calmar_min": 0.05,
+    "sharpe_min": 0.0
+  },
+  "ci95_lower_bound": {
+    "mean_daily_ret": -5.7584474031259195e-05,
+    "stat_bar": -0.0002
+  },
+  "max_dd_worsened": false,
+  "reject_reasons": [],
+  "feedback_for_research": ""
+}

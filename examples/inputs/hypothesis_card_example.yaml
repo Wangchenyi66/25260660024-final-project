@@ -1,0 +1,20 @@
+expected_effect: 样本外 Calmar/Sharpe 改进且回撤不恶化
+hypothesis_id: H-2025-11-17-00
+market_regime_note: 当前状态 high_vol
+merged_params:
+  momentum_days: 15
+  momentum_weight: 0.2
+  rebalance_freq: W
+  top_n: 3
+  vol_days: 20
+  vol_weight: 0.6
+  volume_weight: 0.2
+params_patch:
+  momentum_days: 15
+  momentum_weight: 0.2
+  top_n: 3
+  vol_weight: 0.6
+  volume_weight: 0.2
+parent_version: v-4f949024
+rationale: 监测显示市场状态为 high_vol，滚动60日Calmar=-2.082242851015931，基线=-2.082242851015931；按状态切换规则调整参数
+revision_round: 0
