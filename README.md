@@ -13,17 +13,11 @@
 
 ## 代码仓库
 
-本 ZIP 内含完整 Git 开发历史（隐藏目录 `.git/`，非浅拷贝，全部提交可离线审阅）：
+- **GitHub**：https://github.com/Wangchenyi66/25260660024-final-project （Public）
+- 本 ZIP 内含完整 Git 开发历史（隐藏目录 `.git/`，非浅拷贝，全部提交可离线审阅）：
 
 ```bash
 git log --oneline   # 查看分阶段提交历史
-```
-
-如需托管到 GitHub（作业中远程链接为可选项）：
-
-```bash
-git remote add origin git@github.com:<你的用户名>/alpha-forge.git
-git push -u origin main
 ```
 
 ## 文件说明
